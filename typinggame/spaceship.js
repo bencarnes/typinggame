@@ -5,7 +5,7 @@ image.src = './public/spaceship.png';
 
 const height = 25;
 const width = 25;
-const speed = 0.25;
+const speed = 0.5;
 
 class Spaceship extends Sprite {
     constructor(x, y) {
