@@ -3,8 +3,9 @@ import Sprite from './sprite.js';
 const image = new Image();
 image.src = './public/spaceship.png';
 
-const height = 50;
-const width = 50;
+const height = 25;
+const width = 25;
+const speed = 0.25;
 
 class Spaceship extends Sprite {
     constructor(x, y) {
@@ -17,7 +18,7 @@ class Spaceship extends Sprite {
     }
 
     move() {
-        this.y += 1;
+        this.y += speed;
     }
 }
 
