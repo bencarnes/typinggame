@@ -4,15 +4,15 @@ import Star from './star.js';
 
 const canvas = document.querySelector('canvas');
 
-canvas.width = 600;
-canvas.height = 400;
+canvas.width = 1000;
+canvas.height = 600;
 
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 
 let sprites = []
 
-sprites.push(new Spaceship(50, 50));
+sprites.push(new Spaceship(50, 50, "test"));
 
 let stars = [];
 for (let i = 0; i < 100; i++) {
