@@ -12,7 +12,9 @@ ctx.imageSmoothingEnabled = false;
 
 let sprites = []
 
-sprites.push(new Spaceship(50, 50, "test"));
+let spaceship = new Spaceship(50, 50, "test");
+sprites.push(spaceship);
+setTimeout(() => spaceship.explode(), 5000);
 
 let stars = [];
 for (let i = 0; i < 100; i++) {
