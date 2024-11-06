@@ -4,7 +4,7 @@ class Explosion {
     this.x = x;
     this.y = y;
     this.size = 0;
-    this.maxSize = 100;
+    this.maxSize = 25;
     this.growth = 10;
   }
   move() {

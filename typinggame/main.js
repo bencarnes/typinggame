@@ -43,7 +43,10 @@ function gameRender() {
     renderBackground(ctx);
 
     sprites.forEach(sprite => { sprite.render(ctx); });
+}
 
+function gameSpawn() {
+    sprites = [...sprites, ...sprites.filter(s => s.spawn).flatMap(s => s.spawn())];
 }
 
 function gameLoop() {
@@ -51,6 +54,7 @@ function gameLoop() {
 
     gameMove();
     gameRender();
+    gameSpawn();
 }
 gameLoop();
   

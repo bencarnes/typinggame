@@ -14,20 +14,14 @@ class Spaceship extends Sprite {
         this.word = word;
         this.state = 'alive';
 
-        this.explosionSprites = [];
         this.explosionTicks = 0;
+        this.explosionCount = 0;
+        this.maxExplosionTicks = 10;
     }
 
 
     render(context) {
         if (this.state === 'dead') {
-            return;
-        }
-
-        if (this.state === 'dying') {
-            this.explosionSprites.forEach((sprite) => {
-                sprite.render(context);
-            });
             return;
         }
 
@@ -44,18 +38,18 @@ class Spaceship extends Sprite {
     move() {
         this.y += speed;
 
+    }
+
+    spawn() {
         if (this.state === 'dying') {
             this.explosionTicks += 1;
-            if (this.explosionTicks % 10 === 0 && this.explosionSprites.length < 10) {
-
+            if (this.explosionTicks % 10 === 0 && this.explosionCount < 10) {
                 const explosion = new Explosion(this.x + Math.random() * this.width * 2 - this.width, this.y + Math.random() * this.height * 2 - this.height);
-                this.explosionSprites.push(explosion);
+                this.explosionCount += 1;
+                return [explosion];
             }
-
-            this.explosionSprites.forEach((sprite) => {
-                sprite.move();
-            });
         }
+        return [];
     }
 
     explode() {
