@@ -22,6 +22,9 @@ class Explosion {
     ctx.fillStyle = 'red';
     ctx.fill();
   }
+  isLive() {
+    return this.size < this.maxSize;
+  }
 }
 
 export default Explosion;

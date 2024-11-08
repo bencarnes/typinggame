@@ -16,18 +16,14 @@ class Spaceship extends Sprite {
 
         this.explosionTicks = 0;
         this.explosionCount = 0;
-        this.maxExplosionTicks = 10;
+        this.maxExplosionCount = 10;
     }
 
 
     render(context) {
-        if (this.state === 'dead') {
-            return;
-        }
 
         super.render(context);
 
-        
         context.font = '16px Arial Black';
         context.fillStyle = 'white';
         context.textAlign = 'center';
@@ -43,13 +39,21 @@ class Spaceship extends Sprite {
     spawn() {
         if (this.state === 'dying') {
             this.explosionTicks += 1;
-            if (this.explosionTicks % 10 === 0 && this.explosionCount < 10) {
+            if (this.explosionTicks % 10 === 0 && this.explosionCount < this.maxExplosionCount) {
                 const explosion = new Explosion(this.x + Math.random() * this.width * 2 - this.width, this.y + Math.random() * this.height * 2 - this.height);
                 this.explosionCount += 1;
                 return [explosion];
             }
+
+            if (this.explosionCount >= this.maxExplosionCount) {
+                this.state = 'dead';
+            }
         }
         return [];
+    }
+
+    isLive() {
+        return this.state !== 'dead';
     }
 
     explode() {

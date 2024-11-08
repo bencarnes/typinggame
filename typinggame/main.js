@@ -49,12 +49,17 @@ function gameSpawn() {
     sprites = [...sprites, ...sprites.filter(s => s.spawn).flatMap(s => s.spawn())];
 }
 
+function gameCleanup() {
+    sprites = sprites.filter(s => s.isLive());
+}
+
 function gameLoop() {
     requestAnimationFrame(gameLoop);
 
     gameMove();
     gameRender();
     gameSpawn();
+    gameCleanup();
 }
 gameLoop();
   

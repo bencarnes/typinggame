@@ -22,6 +22,10 @@ class Star {
             this.x = Math.random() * this.canvasWidth;
         }
     }
+
+    isLive() {
+        return true;
+    }
 }
 
 export default Star;

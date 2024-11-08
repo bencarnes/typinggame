@@ -16,6 +16,10 @@ class Sprite {
 
     move() {
     }
+
+    isLive() {
+        return true;
+    }
 }
 
 export default Sprite;
