@@ -12,9 +12,7 @@ ctx.imageSmoothingEnabled = false;
 
 let sprites = []
 
-let spaceship = new Spaceship(50, 50, "test");
-sprites.push(spaceship);
-setTimeout(() => spaceship.explode(), 5000);
+let gameTicks = 0;
 
 let stars = [];
 for (let i = 0; i < 100; i++) {
@@ -46,11 +44,26 @@ function gameRender() {
 }
 
 function gameSpawn() {
+    if (gameTicks > 0 && gameTicks % 100 === 0) {
+        spawnSpaceship();
+    }
+
     sprites = [...sprites, ...sprites.filter(s => s.spawn).flatMap(s => s.spawn())];
 }
 
+function spawnSpaceship() {
+    const x = Math.random() * canvas.width;
+    const y = -50;
+    const word = 'spaceship';
+    sprites.push(new Spaceship(x, y, word));
+}
+
+spawnSpaceship();
+
 function gameCleanup() {
     sprites = sprites.filter(s => s.isLive());
+
+    sprites = sprites.filter(s => s.y < canvas.height);
 }
 
 function gameLoop() {
@@ -60,6 +73,8 @@ function gameLoop() {
     gameRender();
     gameSpawn();
     gameCleanup();
+
+    gameTicks += 1;
 }
 gameLoop();
   
