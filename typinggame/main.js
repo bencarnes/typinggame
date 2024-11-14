@@ -81,7 +81,10 @@ gameLoop();
 window.addEventListener('keypress', (event) => {
     const letter = event.key;
     if (letter.length === 1 && letter.match(/[a-z]/i)) {
-        console.log(`Letter key pressed: ${letter}`);
-        // Add your logic here to handle the letter key press
+        sprites.forEach(sprite => {
+            if (sprite.letterTyped) {
+                sprite.letterTyped(letter);
+            }
+        });
     }
 });

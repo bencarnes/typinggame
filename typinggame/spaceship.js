@@ -17,6 +17,7 @@ class Spaceship extends Sprite {
         this.explosionTicks = 0;
         this.explosionCount = 0;
         this.maxExplosionCount = 10;
+        this.typeAttempt = [];
     }
 
 
@@ -54,6 +55,16 @@ class Spaceship extends Sprite {
 
     isLive() {
         return this.state !== 'dead';
+    }
+
+    letterTyped(letter) {
+        this.typeAttempt.push(letter);
+        if (this.typeAttempt.length > this.word.length) {
+            this.typeAttempt.shift();
+        }
+        if (this.typeAttempt.join('') === this.word) {
+            this.explode();
+        }
     }
 
     explode() {

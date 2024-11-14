@@ -21,6 +21,7 @@ class Explosion {
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fillStyle = 'red';
     ctx.fill();
+    ctx.globalAlpha = 1;
   }
   isLive() {
     return this.size < this.maxSize;
