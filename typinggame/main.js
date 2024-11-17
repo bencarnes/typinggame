@@ -1,6 +1,7 @@
 import Sprite from './sprite.js';
 import Spaceship from './spaceship.js';
 import Star from './star.js';
+import Words from './words.js';
 
 const canvas = document.querySelector('canvas');
 
@@ -54,7 +55,7 @@ function gameSpawn() {
 function spawnSpaceship() {
     const x = Math.random() * canvas.width;
     const y = -50;
-    const word = 'spaceship';
+    const word = Words.getRandWord('leftUpper');
     sprites.push(new Spaceship(x, y, word));
 }
 
