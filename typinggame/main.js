@@ -8,6 +8,8 @@ const canvas = document.querySelector('canvas');
 canvas.width = 1000;
 canvas.height = 600;
 
+let score = 0;
+
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 
@@ -36,12 +38,20 @@ function renderBackground(context) {
     stars.forEach(star => { star.render(context); });
 }
 
+function renderScore(context) {
+    context.font = '16px Arial';
+    context.fillStyle = 'blue';
+    context.fillText(`Score: ${score}`, canvas.width - 100, canvas.height - 20);
+}
+
 function gameRender() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     renderBackground(ctx);
 
     sprites.forEach(sprite => { sprite.render(ctx); });
+
+    renderScore(ctx);
 }
 
 function gameSpawn() {
@@ -62,8 +72,10 @@ function spawnSpaceship() {
 spawnSpaceship();
 
 function gameCleanup() {
+    score += sprites.filter(s => !s.isLive() && s.isSpaceship).length;
     sprites = sprites.filter(s => s.isLive());
 
+    score -= sprites.filter(s => s.isLive() && s.isSpaceship && s.y >= canvas.height).length;
     sprites = sprites.filter(s => s.y < canvas.height);
 }
 

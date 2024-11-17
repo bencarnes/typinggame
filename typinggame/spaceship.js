@@ -70,6 +70,10 @@ class Spaceship extends Sprite {
     explode() {
         this.state = 'dying';
     }
+
+    get isSpaceship() {
+        return true;
+    }
 }
 
 export default Spaceship;
