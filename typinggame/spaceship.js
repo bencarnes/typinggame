@@ -69,6 +69,9 @@ class Spaceship extends Sprite {
 
     explode() {
         this.state = 'dying';
+
+        const explosionSound = new Audio('./public/explosion.mp3');
+        explosionSound.play();
     }
 
     get isSpaceship() {
