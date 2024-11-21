@@ -2,7 +2,7 @@ import Sprite from './sprite.js';
 import Explosion from './explosion.js';
 
 const image = new Image();
-image.src = './public/spaceship.png';
+image.src = './spaceship.png';
 
 const height = 50;
 const width = 50;
@@ -70,7 +70,7 @@ class Spaceship extends Sprite {
     explode() {
         this.state = 'dying';
 
-        const explosionSound = new Audio('./public/explosion.mp3');
+        const explosionSound = new Audio('./explosion.mp3');
         explosionSound.play();
     }
 
