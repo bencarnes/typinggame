@@ -3,101 +3,118 @@ import Spaceship from './spaceship.js';
 import Star from './star.js';
 import Words from './words.js';
 
-const canvas = document.querySelector('canvas');
+export default class Game {
+    constructor() {
 
-canvas.width = 1000;
-canvas.height = 600;
+        this.canvas = document.querySelector('canvas');
 
-let score = 0;
+        this.canvas.width = 1000;
+        this.canvas.height = 600;
+        
+        this.score = 0;
+        
+        this.ctx = this.canvas.getContext('2d');
+        this.ctx.imageSmoothingEnabled = false;
+        
+        this.sprites = []
+        
+        this.gameTicks = 0;
 
-const ctx = canvas.getContext('2d');
-ctx.imageSmoothingEnabled = false;
-
-let sprites = []
-
-let gameTicks = 0;
-
-let stars = [];
-for (let i = 0; i < 100; i++) {
-    stars.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height, 0));
-}
-for (let i = 0; i < 50; i++) {
-    stars.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height, 0.05));
-}
-for (let i = 0; i < 25; i++) {
-    stars.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height, 0.125));
-}
-
-
-function gameMove() {
-    sprites.forEach(sprite => { sprite.move(); });
-    stars.forEach(star => { star.move(); });
-}
-
-function renderBackground(context) {
-    stars.forEach(star => { star.render(context); });
-}
-
-function renderScore(context) {
-    context.font = '16px Arial';
-    context.fillStyle = 'blue';
-    context.fillText(`Score: ${score}`, canvas.width - 100, canvas.height - 20);
-}
-
-function gameRender() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    renderBackground(ctx);
-
-    sprites.forEach(sprite => { sprite.render(ctx); });
-
-    renderScore(ctx);
-}
-
-function gameSpawn() {
-    if (gameTicks > 0 && gameTicks % 100 === 0) {
-        spawnSpaceship();
+        this.createStars()
+        this.spawnSpaceship();
+        this.hookupUserControls()
     }
 
-    sprites = [...sprites, ...sprites.filter(s => s.spawn).flatMap(s => s.spawn())];
-}
-
-function spawnSpaceship() {
-    const x = Math.random() * canvas.width;
-    const y = -50;
-    const word = Words.getRandWord('leftUpper');
-    sprites.push(new Spaceship(x, y, word));
-}
-
-spawnSpaceship();
-
-function gameCleanup() {
-    score += sprites.filter(s => !s.isLive() && s.isSpaceship).length;
-    sprites = sprites.filter(s => s.isLive());
-
-    score -= sprites.filter(s => s.isLive() && s.isSpaceship && s.y >= canvas.height).length;
-    sprites = sprites.filter(s => s.y < canvas.height);
-}
-
-function gameLoop() {
-    requestAnimationFrame(gameLoop);
-
-    gameMove();
-    gameRender();
-    gameSpawn();
-    gameCleanup();
-
-    gameTicks += 1;
-}
-gameLoop();
-  
-window.addEventListener('keypress', (event) => {
-    const letter = event.key;
-    if (letter.length === 1 && letter.match(/[a-z]/i)) {
-        sprites.forEach(sprite => {
-            if (sprite.letterTyped) {
-                sprite.letterTyped(letter);
+    hookupUserControls() {
+        window.addEventListener('keypress', (event) => {
+            const letter = event.key;
+            if (letter.length === 1 && letter.match(/[a-z]/i)) {
+                this.sprites.forEach(sprite => {
+                    if (sprite.letterTyped) {
+                        sprite.letterTyped(letter);
+                    }
+                });
             }
         });
     }
-});
+
+    createStars() {
+        this.stars = [];
+        for (let i = 0; i < 100; i++) {
+            this.stars.push(new Star(Math.random() * this.canvas.width, Math.random() * this.canvas.height, 0));
+        }
+        for (let i = 0; i < 50; i++) {
+            this.stars.push(new Star(Math.random() * this.canvas.width, Math.random() * this.canvas.height, 0.05));
+        }
+        for (let i = 0; i < 25; i++) {
+            this.stars.push(new Star(Math.random() * this.canvas.width, Math.random() * this.canvas.height, 0.125));
+        }
+    }
+
+    renderBackground(context) {
+        this.stars.forEach(star => { star.render(context); });
+    }
+
+    renderScore(context) {
+        context.font = '16px Arial';
+        context.fillStyle = 'blue';
+        context.fillText(`Score: ${this.score}`, this.canvas.width - 100, this.canvas.height - 20);
+    }
+
+    gameMove() {
+        this.sprites.forEach(sprite => { sprite.move(); });
+        this.stars.forEach(star => { star.move(); });
+    }
+
+    gameSpawn() {
+        if (this.gameTicks > 0 && this.gameTicks % 100 === 0) {
+            this.spawnSpaceship();
+        }
+
+        this.sprites = [...this.sprites, ...this.sprites.filter(s => s.spawn).flatMap(s => s.spawn())];
+    }
+
+
+    spawnSpaceship() {
+        const x = Math.random() * this.canvas.width;
+        const y = -50;
+        const word = Words.getRandWord('leftUpper');
+        this.sprites.push(new Spaceship(x, y, word));
+    }
+
+
+    gameRender() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.renderBackground(this.ctx);
+
+        this.sprites.forEach(sprite => { sprite.render(this.ctx); });
+
+        this.renderScore(this.ctx);
+    }
+
+    gameCleanup() {
+        this.score += this.sprites.filter(s => !s.isLive() && s.isSpaceship).length;
+        this.sprites = this.sprites.filter(s => s.isLive());
+    
+        this.score -= this.sprites.filter(s => s.isLive() && s.isSpaceship && s.y >= this.canvas.height).length;
+        this.sprites = this.sprites.filter(s => s.y < this.canvas.height);
+    }
+
+    gameLoop() {
+        requestAnimationFrame(() => { this.gameLoop() });
+
+        this.gameMove();
+        this.gameRender();
+        this.gameSpawn();
+        this.gameCleanup();
+
+        this.gameTicks += 1;
+    }
+}
+
+
+
+const game = new Game();
+game.gameLoop();
+  
