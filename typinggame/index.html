@@ -25,7 +25,27 @@ canvas {
     </style>
   </head>
   <body>
-    <script type="module" src="/main.js"></script>
-    <canvas></canvas>
+    <canvas hidden></canvas>
+    <div id="setupPanel">
+      <button id="startButton">Start Game</button>
+      <script type="module">
+        import Game from './main.js';
+
+        function start() {
+          console.log('Starting game');
+          const setupPanel = document.getElementById('setupPanel');
+          const canvas = document.querySelector('canvas');
+
+          setupPanel.hidden = true;
+          canvas.hidden = false;
+          
+          const game = new Game();
+          game.start();
+        }
+        
+        const startButton = document.getElementById('startButton');
+        startButton.addEventListener('click', start);
+      </script>
+    </div>
   </body>
 </html>

@@ -111,10 +111,10 @@ export default class Game {
 
         this.gameTicks += 1;
     }
+
+    start() {
+        this.gameLoop();
+    }
 }
 
 
-
-const game = new Game();
-game.gameLoop();
-  
