@@ -13,6 +13,7 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: black;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 canvas {
@@ -22,12 +23,29 @@ canvas {
   border: 1px solid white;
   box-sizing: border-box;
 }
+
+#startButton {
+  font-size: 24px;
+  padding: 10px 20px;
+}
+
+#setupPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: white;
+}
+
     </style>
   </head>
   <body>
     <canvas hidden></canvas>
     <div id="setupPanel">
       <button id="startButton">Start Game</button>
+      Word list:
+      <textarea id="wordList" rows="20" cols="30"></textarea>
       <script type="module">
         import Game from './main.js';
 
