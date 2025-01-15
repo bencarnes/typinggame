@@ -45,9 +45,28 @@ canvas {
     <div id="setupPanel">
       <button id="startButton">Start Game</button>
       Word list:
+      <select id="wordListSelect">
+      </select>
       <textarea id="wordList" rows="20" cols="30"></textarea>
       <script type="module">
         import Game from './main.js';
+        import WordLists from './wordlists.js';
+
+        const wordListSelect = document.getElementById('wordListSelect');
+        // Popuplate wordListSelect from WordLists
+        WordLists.forEach((list) => {
+          const option = document.createElement('option');
+          option.value = list.name;
+          option.textContent = list.name;
+          wordListSelect.appendChild(option);
+        });
+        // Add a select event that populates the textarea with the selected word list.
+        wordListSelect.addEventListener('change', (event) => {
+          const selectedList = WordLists.find((list) => list.name === event.target.value);
+          document.getElementById('wordList').value = selectedList.words.join('\n');
+        });
+        // Populate the textarea with the default word list.
+        document.getElementById('wordList').value = WordLists[0].words.join('\n');
 
         function start() {
           console.log('Starting game');
