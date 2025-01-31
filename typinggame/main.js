@@ -1,10 +1,11 @@
 import Sprite from './sprite.js';
 import Spaceship from './spaceship.js';
 import Star from './star.js';
-import Words from './words.js';
 
 export default class Game {
-    constructor() {
+    constructor(wordList) {
+
+        this.wordList = wordList;
 
         this.canvas = document.querySelector('canvas');
 
@@ -22,7 +23,7 @@ export default class Game {
 
         this.createStars()
         this.spawnSpaceship();
-        this.hookupUserControls()
+        this.hookupUserControls();
     }
 
     hookupUserControls() {
@@ -78,7 +79,7 @@ export default class Game {
     spawnSpaceship() {
         const x = Math.random() * this.canvas.width;
         const y = -50;
-        const word = Words.getRandWord('leftUpper');
+        const word = this.wordList[Math.floor(Math.random() * this.wordList.length)];
         this.sprites.push(new Spaceship(x, y, word));
     }
 

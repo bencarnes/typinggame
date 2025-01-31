@@ -72,11 +72,12 @@ canvas {
           console.log('Starting game');
           const setupPanel = document.getElementById('setupPanel');
           const canvas = document.querySelector('canvas');
+          const wordList = document.getElementById('wordList').value.split('\n');
 
           setupPanel.hidden = true;
           canvas.hidden = false;
           
-          const game = new Game();
+          const game = new Game(wordList);
           game.start();
         }
         
